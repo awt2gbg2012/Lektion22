@@ -25,6 +25,7 @@ namespace Lektion22.Models.Repositories
         }
         public void RegisterUser(AppUser user)
         {
+            user.ID = Guid.NewGuid();
             _dbSet.Add(user);
             _context.SaveChanges();
         }
