@@ -5,6 +5,7 @@ using System.Web;
 using System.Text;
 using System.Web.Security;
 using Lektion22.Models.Repositories;
+using Lektion22.Models.Entities;
 
 namespace Lektion22.Models.Membership
 {
@@ -34,13 +35,14 @@ namespace Lektion22.Models.Membership
 
             if (user == null)
             {
-                UserObj userObj = new UserObj();
-                userObj.UserName = username;
-                userObj.Password = GetSHA1Hash(password);
-                userObj.UserEmailAddress = email;
+                AppUser appUser = new AppUser();
+                appUser.UserName = username;
+                appUser.Salt = BCrypt.Net.BCrypt.GenerateSalt();
+                appUser.PasswordHash = GetBcryptHash(password, appUser.Salt);
+                appUser.UserEmailAddress = email;
 
-                User userRep = new User();
-                userRep.RegisterUser(userObj);
+                IAppUserRepository userRepo = new AppUserRepository();
+                userRepo.RegisterUser(appUser);
 
                 status = MembershipCreateStatus.Success;
 
