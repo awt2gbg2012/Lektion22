@@ -104,5 +104,38 @@ namespace Lektion22.Models.Membership
             }
             return sBuilder.ToString();
         }
+
+        // Change these?
+        public override MembershipPasswordFormat PasswordFormat
+        { get { return MembershipPasswordFormat.Hashed; } }
+        public override string ApplicationName { get; set; }
+        public override bool EnablePasswordReset { get { return false; } }
+        public override bool EnablePasswordRetrieval { get { return false; } }
+        public override int MaxInvalidPasswordAttempts { get { return 15; } }
+        public override int MinRequiredNonAlphanumericCharacters
+        { get { return 0; } }
+        public override int PasswordAttemptWindow { get { return 15; } }
+        public override bool RequiresQuestionAndAnswer { get { return false; } }
+        public override bool DeleteUser(string username,
+                    bool deleteAllRelatedData)
+        {
+            IAppUserRepository userRepo = new AppUserRepository();
+            try
+            {
+                userRepo.DeleteUserByUserName(username);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public override string GetUserNameByEmail(string email)
+        {
+            IAppUserRepository userRepo = new AppUserRepository();
+            return userRepo.FindAll(u => u.UserEmailAddress == email)
+                .Select(u => u.UserName).FirstOrDefault();
+        }
+
     }
 }
