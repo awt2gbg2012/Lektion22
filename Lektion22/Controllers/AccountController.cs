@@ -6,11 +6,17 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using Lektion22.Models;
+using Lektion22.Models.Membership;
 
 namespace Lektion22.Controllers
 {
     public class AccountController : Controller
     {
+        private CustomMembershipProvider _membership;
+        public AccountController()
+        {
+            _membership = new CustomMembershipProvider();
+        }
 
         //
         // GET: /Account/LogOn
