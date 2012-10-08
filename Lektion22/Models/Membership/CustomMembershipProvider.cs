@@ -57,13 +57,15 @@ namespace Lektion22.Models.Membership
         }
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
-            User userRep = new User();
-            UserObj user = userRep.GetAllUsers().SingleOrDefault
-                    (u => u.UserName == username);
+            IAppUserRepository userRepo = new AppUserRepository();
+            var user = userRepo.FindAll(u => u.UserName == username)
+                .FirstOrDefault();
             if (user != null)
             {
-                MembershipUser memUser = new MembershipUser("CustomMembershipProvider",
-                                               username, user.UserID, user.UserEmailAddress,
+                MembershipUser memUser = new MembershipUser(
+                        "CustomMembershipProvider",
+                                               username, user.ID,
+                    user.UserEmailAddress,
                                                string.Empty, string.Empty,
                                                true, false, DateTime.MinValue,
                                                DateTime.MinValue,
@@ -72,6 +74,7 @@ namespace Lektion22.Models.Membership
                 return memUser;
             }
             return null;
+
         }
 
         public override bool ValidateUser(string username, string password)
