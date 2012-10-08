@@ -78,6 +78,7 @@
     <Compile Include="Models\DBInitializers\EFDBInitializer.cs" />
     <Compile Include="Models\Entities\Abstract\IEntity.cs" />
     <Compile Include="Models\Entities\AppUser.cs" />
+    <Compile Include="Models\Membership\CustomMembershipProvider.cs" />
     <Compile Include="Models\Repositories\Abstract\IRepository.cs" />
     <Compile Include="Models\Repositories\UserRepository.cs" />
     <Compile Include="Models\Repositories\Repository.cs" />
